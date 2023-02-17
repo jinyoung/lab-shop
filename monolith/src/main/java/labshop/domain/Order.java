@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.*;
 import labshop.MonolithApplication;
 import labshop.domain.OrderPlaced;
+import labshop.external.Inventory;
+import labshop.external.InventoryService;
+import labshop.external.UpdateStockCommand;
 import lombok.Data;
 import org.springframework.context.ApplicationContext;
 
