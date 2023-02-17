@@ -52,7 +52,13 @@ public class PolicyHandler {
             "\n\n##### listener UpdateStock : " + orderPlaced + "\n\n"
         );
 
-        Inventory.updateStock(event);
+        UpdateStockCommand updateStockCommand = new UpdateStockCommand();
+
+        inventoryRepository
+            .findById(event.getId())
+            .ifPresent(inventory -> {
+                inventory.updateStock(updateStockCommand);
+            });
 
         // Manual Offset Commit //
         acknowledgment.acknowledge();

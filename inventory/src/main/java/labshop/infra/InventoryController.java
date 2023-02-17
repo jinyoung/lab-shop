@@ -17,4 +17,28 @@ public class InventoryController {
 
     @Autowired
     InventoryRepository inventoryRepository;
+
+    @RequestMapping(
+        value = "inventories/{id}/updatestock",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Inventory updateStock(
+        @PathVariable(value = "id") Long id,
+        @RequestBody UpdateStockCommand updateStockCommand,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /inventory/updateStock  called #####");
+        Optional<Inventory> optionalInventory = inventoryRepository.findById(
+            id
+        );
+
+        optionalInventory.orElseThrow(() -> new Exception("No Entity Found"));
+        Inventory inventory = optionalInventory.get();
+        inventory.updateStock(updateStockCommand);
+
+        inventoryRepository.save(inventory);
+        return inventory;
+    }
 }

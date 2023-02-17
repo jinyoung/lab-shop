@@ -12,6 +12,12 @@ public class InventoryHateoasProcessor
 
     @Override
     public EntityModel<Inventory> process(EntityModel<Inventory> model) {
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/updatestock")
+                .withRel("updatestock")
+        );
+
         return model;
     }
 }
