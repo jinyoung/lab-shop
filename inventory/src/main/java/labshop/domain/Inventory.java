@@ -28,5 +28,8 @@ public class Inventory {
         return InventoryApplication.applicationContext;
     }
 
-    public void updateStock(UpdateStockCommand updateStockCommand) {}
+    public void updateStock(UpdateStockCommand updateStockCommand) {
+        setStock(getStock() - updateStockCommand.getQty());
+    }
+
 }

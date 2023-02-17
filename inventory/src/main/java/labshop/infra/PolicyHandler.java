@@ -53,6 +53,7 @@ public class PolicyHandler {
         );
 
         UpdateStockCommand updateStockCommand = new UpdateStockCommand();
+        updateStockCommand.setQty(orderPlaced.getQty().longValue());  //<====
 
         inventoryRepository
             .findById(event.getId())

@@ -7,7 +7,6 @@ import labshop.MonolithApplication;
 import labshop.domain.OrderPlaced;
 import labshop.external.Inventory;
 import labshop.external.InventoryService;
-import labshop.external.UpdateStockCommand;
 import lombok.Data;
 import org.springframework.context.ApplicationContext;
 
@@ -29,7 +28,7 @@ public class Order {
     private Double amount;
 
     @PrePersist
-    public void checkAvailabilityAndDecreaseStock() throws OutOfStock{
+    public void checkAvailability() throws OutOfStock{
         /** TODO: Get request to Inventory        */
         InventoryService inventoryService = applicationContext().getBean(InventoryService.class);
         
@@ -40,12 +39,6 @@ public class Order {
 
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
-        /** TODO:  REST API Call to Inventory        */
-        UpdateStockCommand updateStockCommand = new UpdateStockCommand();
-        updateStockCommand.setQty(getQty().longValue());
-
-        applicationContext().getBean(InventoryService.class)
-           .updateStock(Long.valueOf(getProductId()), updateStockCommand);
 
 
     }
