@@ -37,31 +37,4 @@ public class PolicyHandler {
           acknowledgment.acknowledge();  
           */
     }
-
-    @StreamListener(
-        value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='OrderPlaced'"
-    )
-    public void wheneverOrderPlaced_UpdateStock(
-        @Payload OrderPlaced orderPlaced,
-        @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
-        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey
-    ) {
-        OrderPlaced event = orderPlaced;
-        System.out.println(
-            "\n\n##### listener UpdateStock : " + orderPlaced + "\n\n"
-        );
-
-        UpdateStockCommand updateStockCommand = new UpdateStockCommand();
-        updateStockCommand.setQty(orderPlaced.getQty().longValue());  //<====
-
-        inventoryRepository
-            .findById(event.getId())
-            .ifPresent(inventory -> {
-                inventory.updateStock(updateStockCommand);
-            });
-
-        // Manual Offset Commit //
-        acknowledgment.acknowledge();
-    }
 }
