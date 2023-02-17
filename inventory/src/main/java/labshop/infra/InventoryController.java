@@ -1,0 +1,44 @@
+package labshop.infra;
+
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+import labshop.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+// @RequestMapping(value="/inventories")
+@Transactional
+public class InventoryController {
+
+    @Autowired
+    InventoryRepository inventoryRepository;
+
+    @RequestMapping(
+        value = "inventories/{id}/updatestock",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Inventory updateStock(
+        @PathVariable(value = "id") Long id,
+        @RequestBody UpdateStockCommand updateStockCommand,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /inventory/updateStock  called #####");
+        Optional<Inventory> optionalInventory = inventoryRepository.findById(
+            id
+        );
+
+        optionalInventory.orElseThrow(() -> new Exception("No Entity Found"));
+        Inventory inventory = optionalInventory.get();
+        inventory.updateStock(updateStockCommand);
+
+        inventoryRepository.save(inventory);
+        return inventory;
+    }
+}
