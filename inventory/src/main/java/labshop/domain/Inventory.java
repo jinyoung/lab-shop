@@ -3,7 +3,7 @@ package labshop.domain;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import labshop.MonolithApplication;
+import labshop.InventoryApplication;
 import lombok.Data;
 import org.springframework.context.ApplicationContext;
 
@@ -25,6 +25,8 @@ public class Inventory {
     }
 
     public static ApplicationContext applicationContext() {
-        return MonolithApplication.applicationContext;
+        return InventoryApplication.applicationContext;
     }
+
+    public void updateStock(UpdateStockCommand updateStockCommand) {}
 }
