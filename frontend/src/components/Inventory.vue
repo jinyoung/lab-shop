@@ -57,6 +57,20 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openUpdateStock"
+            >
+                UpdateStock
+            </v-btn>
+            <v-dialog v-model="updateStockDiagram" width="500">
+                <UpdateStockCommand
+                        @closeDialog="closeUpdateStock"
+                        @updateStock="updateStock"
+                ></UpdateStockCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -94,6 +108,7 @@
                 timeout: 5000,
                 text: ''
             },
+            updateStockDiagram: false,
         }),
         computed:{
         },
@@ -187,6 +202,32 @@
             },
             change(){
                 this.$emit('input', this.value);
+            },
+            async updateStock(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['updatestock'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeUpdateStock();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openUpdateStock() {
+                this.updateStockDiagram = true;
+            },
+            closeUpdateStock() {
+                this.updateStockDiagram = false;
             },
         },
     }
