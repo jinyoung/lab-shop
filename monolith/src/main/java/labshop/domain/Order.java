@@ -25,11 +25,29 @@ public class Order {
 
     private Double amount;
 
-    @PostPersist
-    public void onPostPersist() {
+    @PrePersist
+    public void checkAvailabilityAndDecreaseStock() throws OutOfStock{
+        /** TODO: Get request to Inventory        */
+        InventoryService inventoryService = applicationContext().getBean(InventoryService.class);
+        
+        Inventory inventory = 
+            inventoryService.getStock( Long.valueOf(getProductId()) );
+
+        if(inventory.getStock() < getQty()) throw new OutOfStock();
+
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
+        /** TODO:  REST API Call to Inventory        */
+        UpdateStockCommand updateStockCommand = new UpdateStockCommand();
+        updateStockCommand.setQty(getQty().longValue());
+
+        applicationContext().getBean(InventoryService.class)
+           .updateStock(Long.valueOf(getProductId()), updateStockCommand);
+
+
     }
+
+
 
     public static OrderRepository repository() {
         OrderRepository orderRepository = applicationContext()

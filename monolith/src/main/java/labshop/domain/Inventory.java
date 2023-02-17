@@ -27,4 +27,9 @@ public class Inventory {
     public static ApplicationContext applicationContext() {
         return MonolithApplication.applicationContext;
     }
+
+    public void updateStock(UpdateStockCommand updateStockCommand) {
+        setStock(getStock() - updateStockCommand.getQty());
+    }
+
 }
