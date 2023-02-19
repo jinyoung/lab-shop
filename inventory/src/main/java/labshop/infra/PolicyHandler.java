@@ -42,23 +42,23 @@ public class PolicyHandler {
         value = KafkaProcessor.INPUT,
         condition = "headers['type']=='OrderPlaced'"
     )
-    public void wheneverOrderPlaced_UpdateStock(
+    public void wheneverOrderPlaced_DecreaseStock(
         @Payload OrderPlaced orderPlaced,
         @Header(KafkaHeaders.ACKNOWLEDGMENT) Acknowledgment acknowledgment,
         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] messageKey
     ) {
         OrderPlaced event = orderPlaced;
         System.out.println(
-            "\n\n##### listener UpdateStock : " + orderPlaced + "\n\n"
+            "\n\n##### listener DecreaseStock : " + orderPlaced + "\n\n"
         );
 
-        UpdateStockCommand updateStockCommand = new UpdateStockCommand();
-        updateStockCommand.setQty(orderPlaced.getQty().longValue()); //<=== TODO
+        DecreaseStockCommand decreaseStockCommand = new DecreaseStockCommand();
+        decreaseStockCommand.setQty(orderPlaced.getQty().longValue()); //<=== TODO
 
         inventoryRepository
-            .findById(event.getId())
+            .findById(Long.valueOf(event.getProductId()))
             .ifPresent(inventory -> {
-                inventory.updateStock(updateStockCommand);
+                inventory.decreaseStock(decreaseStockCommand);
             });
 
         // Manual Offset Commit //
