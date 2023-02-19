@@ -28,5 +28,8 @@ public class Inventory {
         return InventoryApplication.applicationContext;
     }
 
-    public void updateStock(UpdateStockCommand updateStockCommand) {}
+    public void decreaseStock(DecreaseStockCommand decreaseStockCommand) {
+        // implement the business logics here:
+
+    }
 }
