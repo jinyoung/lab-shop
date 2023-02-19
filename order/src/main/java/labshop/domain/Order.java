@@ -3,7 +3,7 @@ package labshop.domain;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import labshop.MonolithApplication;
+import labshop.OrderApplication;
 import labshop.domain.OrderPlaced;
 import lombok.Data;
 import org.springframework.context.ApplicationContext;
@@ -38,6 +38,6 @@ public class Order {
     }
 
     public static ApplicationContext applicationContext() {
-        return MonolithApplication.applicationContext;
+        return OrderApplication.applicationContext;
     }
 }

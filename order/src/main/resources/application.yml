@@ -2,16 +2,9 @@ server:
   port: 8080
   error:
     include-message: always
-feign:
-  hystrix:
-    enabled: true
-hystrix:
-  command:
-    default:
-      execution.isolation.thread.timeoutInMilliseconds: 500
 spring:
   application:
-    name: monolith
+    name: order
 ---
 
 spring:
@@ -56,7 +49,7 @@ spring:
                   serde: org.apache.kafka.common.serialization.Serdes$StringSerde
       bindings:
         event-in:
-          group: monolith
+          group: order
           destination: labshop
           contentType: application/json
         event-out:
@@ -114,7 +107,7 @@ spring:
                   serde: org.apache.kafka.common.serialization.Serdes$StringSerde
       bindings:
         event-in:
-          group: monolith
+          group: order
           destination: labshop
           contentType: application/json
         event-out:

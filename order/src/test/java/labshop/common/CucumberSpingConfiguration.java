@@ -1,9 +1,9 @@
 package labshop.common;
 
 import io.cucumber.spring.CucumberContextConfiguration;
-import labshop.MonolithApplication;
+import labshop.OrderApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @CucumberContextConfiguration
-@SpringBootTest(classes = { MonolithApplication.class })
+@SpringBootTest(classes = { OrderApplication.class })
 public class CucumberSpingConfiguration {}
