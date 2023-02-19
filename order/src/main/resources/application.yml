@@ -74,6 +74,8 @@ api:
 
 server:
   port: 8081
+  error:
+    include-message: always
 
 ---
 

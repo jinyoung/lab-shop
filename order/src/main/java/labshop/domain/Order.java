@@ -1,5 +1,6 @@
 package labshop.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -25,17 +26,36 @@ public class Order {
 
     private String customerId;
 
-    private Double amount;
+    private BigDecimal amount;
+
+    @ElementCollection
+    private List<OrderDetail> details;
+
 
     @PrePersist
-    public void checkAvailability() throws OutOfStock{
-        /** TODO: Get request to Inventory        */
+    public void validateOrderInfoAndPublish() throws OutOfStock{
+        /** Check Availability    */
         InventoryService inventoryService = applicationContext().getBean(InventoryService.class);
         
         Inventory inventory = 
             inventoryService.getStock( Long.valueOf(getProductId()) );
 
         if(inventory.getStock() < getQty()) throw new OutOfStock();
+
+        /** Validate and Calculate the amount */
+        if(getDetails()!=null){
+
+            BigDecimal amount = 
+                getDetails().stream()
+                .map(x -> {if(x.getQty() == 0 ) throw NoQuantity(); return x;} )
+                .map(x -> {if(x.getProductId() == null ) throw NoProductId(); return x;} )
+                .map(x -> new BigDecimal(x.getQty()).multiply(x.getPrice()))    
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            
+            setAmount(amount);            
+        }else{
+            throw new NoOrderDetails();
+        }
 
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();

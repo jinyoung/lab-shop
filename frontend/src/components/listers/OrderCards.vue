@@ -72,6 +72,7 @@
                 'qty': 0,
                 'customerId': '',
                 'amount': 0,
+                'details': [],
             }
         },
         methods:{

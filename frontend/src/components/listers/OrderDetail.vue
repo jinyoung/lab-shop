@@ -17,6 +17,7 @@
             <div>
                 <Number label="Amount" v-model="item.amount" :editMode="editMode" @change="change" />
             </div>
+            <OrderDetailManager offline label="Details" v-model="item.details" :editMode="false" @change="change" />
         </v-card-text>
 
         <v-card-actions>
