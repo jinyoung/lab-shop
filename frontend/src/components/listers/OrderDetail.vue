@@ -18,6 +18,7 @@
                 <Number label="Amount" v-model="item.amount" :editMode="editMode" @change="change" />
             </div>
             <OrderDetailManager offline label="Details" v-model="item.details" :editMode="false" @change="change" />
+            <Status offline label="Status" v-model="item.status" :editMode="false" :key="false" @change="change" />
         </v-card-text>
 
         <v-card-actions>

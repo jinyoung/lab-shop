@@ -28,6 +28,8 @@ public class Order {
     @ElementCollection
     private List<OrderDetail> details;
 
+    private Status status;
+
     @PostPersist
     public void onPostPersist() {
         /** TODO: Get request to Inventory
