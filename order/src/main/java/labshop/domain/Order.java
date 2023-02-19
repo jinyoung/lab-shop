@@ -41,6 +41,15 @@ public class Order {
         orderPlaced.publishAfterCommit();
 
 
+        /** TODO:  REST API Call to Inventory        */
+        labshop.external.UpdateStockCommand updateStockCommand = new labshop.external.UpdateStockCommand();
+        updateStockCommand.setQty(getQty().longValue());
+        
+        // TODO: fill the command properties to invoke below
+        applicationContext().getBean(labshop.external.InventoryService.class)
+           .updateStock(Long.valueOf(getProductId()), updateStockCommand);
+
+
     }
 
 
