@@ -8,7 +8,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: monolith
+        - id: order
           uri: http://localhost:8081
           predicates:
             - Path=/orders/**, 
@@ -39,8 +39,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: monolith
-          uri: http://monolith:8080
+        - id: order
+          uri: http://order:8080
           predicates:
             - Path=/orders/**, 
         - id: inventory

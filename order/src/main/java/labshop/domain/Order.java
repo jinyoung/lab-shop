@@ -27,8 +27,24 @@ public class Order {
 
     @PostPersist
     public void onPostPersist() {
+        /** TODO: Get request to Inventory
+        labshop.external.GetStockQuery getStockQuery = new labshop.external.GetStockQuery();
+        labshop.external.InventoryService inventoryService = applicationContext().getBean(labshop.external.InventoryService.class);
+        labshop.external.Inventory inventory = 
+            inventoryService.getStock( {TODO: please put the id} );
+        */
+
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
+        /** TODO:  REST API Call to Inventory
+        labshop.external.UpdateStockCommand updateStockCommand = new labshop.external.UpdateStockCommand();
+        
+        // TODO: fill the command properties to invoke below
+        
+        applicationContext().getBean(labshop.external.InventoryService.class)
+           .updateStock({TODO: please put the id}, updateStockCommand);
+        */
+
     }
 
     public static OrderRepository repository() {

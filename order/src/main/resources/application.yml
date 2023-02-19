@@ -2,6 +2,13 @@ server:
   port: 8080
   error:
     include-message: always
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 500
 spring:
   application:
     name: order
