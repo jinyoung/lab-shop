@@ -18,16 +18,6 @@ public class Inventory {
 
     private Long stock;
 
-
-    @PostLoad
-    public void makeDelay(){
-        try {
-            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-   
-    }
    
     public static InventoryRepository repository() {
         InventoryRepository inventoryRepository = applicationContext()
