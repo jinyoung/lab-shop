@@ -22,6 +22,7 @@
             <String label="CustomerId" v-model="value.customerId" :editMode="editMode"/>
             <Number label="Amount" v-model="value.amount" :editMode="editMode"/>
             <OrderDetailManager offline label="Details" v-model="value.details" :editMode="editMode" @change="change"/>
+            <Status offline label="Status" v-model="value.status" :editMode="editMode" @change="change"/>
         </v-card-text>
 
         <v-card-actions>

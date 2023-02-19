@@ -31,6 +31,8 @@ public class Order {
     @ElementCollection
     private List<OrderDetail> details;
 
+    private Status status;
+
 
     @PrePersist
     public void validateOrderInfoAndPublish() throws OutOfStock{
@@ -47,15 +49,17 @@ public class Order {
 
             BigDecimal amount = 
                 getDetails().stream()
-                .map(x -> {if(x.getQty() == 0 ) throw NoQuantity(); return x;} )
-                .map(x -> {if(x.getProductId() == null ) throw NoProductId(); return x;} )
+                .map(x -> {if(x.getQty() == null ) throw new NoQuantity(); return x;} )
+                .map(x -> {if(x.getProductId() == null ) throw new NoProductId(); return x;} )
                 .map(x -> new BigDecimal(x.getQty()).multiply(x.getPrice()))    
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
             
             setAmount(amount);            
         }else{
-            throw new NoOrderDetails();
+            throw new NoDetails();
         }
+
+        setStatus(Status.ORDERPLACED);
 
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
