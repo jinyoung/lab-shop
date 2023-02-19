@@ -3,7 +3,7 @@ package labshop.domain;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import labshop.MonolithApplication;
+import labshop.OrderApplication;
 import labshop.domain.OrderPlaced;
 import labshop.external.Inventory;
 import labshop.external.InventoryService;
@@ -52,6 +52,6 @@ public class Order {
     }
 
     public static ApplicationContext applicationContext() {
-        return MonolithApplication.applicationContext;
+        return OrderApplication.applicationContext;
     }
 }
