@@ -25,6 +25,9 @@ public class Order {
 
     private Double amount;
 
+    @ElementCollection
+    private List<OrderDetail> details;
+
     @PostPersist
     public void onPostPersist() {
         /** TODO: Get request to Inventory

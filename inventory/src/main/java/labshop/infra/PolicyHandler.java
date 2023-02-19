@@ -53,10 +53,13 @@ public class PolicyHandler {
         );
 
         DecreaseStockCommand decreaseStockCommand = new DecreaseStockCommand();
-        // implement:  TODO: map command properties from event
+        // implement:  Map command properties from event
 
         inventoryRepository
-            .findById(event.getId())
+            .findById(
+                // implement: Set the Inventory Id from one of OrderPlaced event's corresponding property
+
+            )
             .ifPresent(inventory -> {
                 inventory.decreaseStock(decreaseStockCommand);
             });
